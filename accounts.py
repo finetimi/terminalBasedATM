@@ -2,7 +2,7 @@ from random import randint
 
 class Account():
     """Initialize the code"""
-    def __init__(self, name, balance = 0.0):
+    def __init__(self, name = None, balance = 0.0):
         self._name = name
         self._balance = balance
         self._accountNumber = self.accountNumber()
@@ -12,7 +12,7 @@ class Account():
     def accountNumber(self):
         # Generates random account number
         number = ""
-        for numbers in range(10):
+        for numbers in range(5):
             number += str(randint(0,9))
         return number
 
@@ -71,11 +71,10 @@ class SavingsAccount(Account):
     RATE = 0.03
     LIMIT = 5
 
-    def __init__(self, name, balance = 0.0):
+    def __init__(self, name = None, balance = 0.0):
         Account.__init__(self, name, balance)
         self._count = 0
         self._accountType = "Savings"
-
 
     def computeInterest(self):
         #computes interest and it is deposit to account
