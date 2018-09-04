@@ -23,34 +23,56 @@ class Bank():
 
     def __str__(self):
         #returns the general information of all accounts
-        return "\n".join(map(str, self._accounts.values()))
+        return "\n".join(map(str, self._checkingAccounts.values())) + "\n" + "\n" + "\n".join(map(str,self._savingsAccounts.values()))
 
-    def add(self, account):
-        #add account into a dict
-        self._accounts[account.getPin()] = account
+    def addChecking(self, account):
+        #add checking account into a dict
+        self._checkingAccounts[account.getAccountNumber()] = account
 
-    def remove(self, pin):
+    def addSavings(self, account):
+        self._savingsAccounts[account.getAccountNumber()] = account
+
+    def removeChecking(self, acctNum):
         #removes account from dict
-        self._accounts.pop(pin, None)
+        self._checkingAccounts.pop(acctNum, None)
 
-    def getAccountInfo(self, pin):
-        #Returns value associated with pin
-        return self._accounts.get(pin, None)
+    def removeSavings(self, acctNum):
+        #removes account from dict
+        self._savingsAccounts.pop(acctNum, None)
+
+    def getCheckingAccountInfo(self, acctNum):
+        #Returns value associated with account number
+        return self._checkingAccounts.get(acctNum, None)
+
+    def getSavingsAccountInfo(self, acctNum):
+        #Returns value associated with account number
+        return self._savingsAccounts.get(acctNum, None)
 
     def computeInterest(self):
         #add total interest earned by all accounts
         total = 0.0
-        for account in self._accounts.values():
+        for account in self._savingsAccounts.values():
             total += account.computeInterest()
         return total
 
-    def save(self, fileName = None):
-        #loads all the accounts into a file
+    def saveCheking(self, fileName = None):
+        #saves all the checking accounts into a file
         if fileName != None:
             self._fileName = fileName
         elif self._fileName == None:
             return
         fileObj = open(self._fileName, "wb")
-        for account in self._accounts.values():
+        for account in self._checkingAccounts.values():
+            cPickle.dump(account, fileObj)
+        fileObj.close()
+
+    def saveSavings(self, fileName = None):
+        #saves all the savings accounts into a file
+        if fileName != None:
+            self._fileName = fileName
+        elif self._fileName == None:
+            return
+        fileObj = open(self._fileName, "wb")
+        for account in self._savingsAccounts.values():
             cPickle.dump(account, fileObj)
         fileObj.close()
