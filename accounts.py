@@ -2,7 +2,7 @@ from random import randint
 
 class Account():
 
-    BLOCK = "Not blocked"
+    BLOCK = False
 
     """Initialize the code"""
     def __init__(self, name = None, balance = 0.0):
@@ -51,16 +51,19 @@ class Account():
         accounts += "Balance:   " + "$" + str(self._balance)
         return accounts
 
-    def blockAccount(self, condition = "Not blocked"):
-        Accounts.BLOCK = condition
-        return codition
+    def blockAccount(self, condition = None):
+        if condition == "Blocked":
+            Account.BLOCK = True
+        elif condition == "Unblocked":
+            Account.BLOCK = False
+        return Account.BLOCK
 
 
     def deposit(self, amount):
         """Makes a deposit to account """
         checker = self.blockAccount()
-        if checker == "Blocked":
-            return ("Account Blocked. Contact Bank")
+        if checker == True:
+            return ("Account Blocked. Contact bank for more information.")
         elif amount < 0:
             print("Deposit needs to be bigger than 0")
         else:
@@ -70,8 +73,8 @@ class Account():
     def withdraw(self, amount):
         #balance gets reduced
         checker = self.blockAccount()
-        if checker == "Blocked":
-            return ("Account Blocked. Contact Bank")
+        if checker == True:
+            return ("Account Blocked. Contact bank for more information.")
         elif amount < 0:
             print("Amount needs to be bigger than 0")
         elif self._balance < amount:
@@ -100,10 +103,13 @@ class SavingsAccount(Account):
 
     def withdraw(self, amount):
         #balance gets reduced
-        if self._count == SavingsAccount.LIMIT:
+        checker = Account.blockAccount()
+        if checker == True:
+            return("Account blocked, contact bank for more information.")
+        elif self._count == SavingsAccount.LIMIT:
             return ("Reach the withdrawal limit.")
         else:
             withdrawal = Account.withdraw(amount)
             if withdrawal == None:
-                self._count += 1
+                    self._count += 1
             return withdrawal

@@ -12,7 +12,7 @@ class Bank():
         self._c_fileName = c_fileName
         self._s_fileName = s_fileName
         if c_fileName == "c_accounts.txt":
-            fileObj = open(self._c_fileName, 'r')
+            fileObj = open(self._c_fileName, 'rb')
             while True:
                 try:
                     account = cPickle.load(fileObj)
@@ -21,7 +21,7 @@ class Bank():
                     fileObj.close()
                     break
         if s_fileName == "s_accounts.txt":
-            fileObj = open(self._s_fileName, "r")
+            fileObj = open(self._s_fileName, "rb")
             while True:
                 try:
                     account = cPickle.load(fileObj)
@@ -51,11 +51,11 @@ class Bank():
         #removes account from dict
         self._savingsAccounts.pop(acctNum, None)
 
-    def blockChecking(self, acctNum, condition = None):
+    def blockChecking(self, acctNum, condition):
         account = self._checkingAccounts.get(acctNum, None)
         account.blockAccount(condition)
 
-    def blockSavings(self, acctNum, condition = False):
+    def blockSavings(self, acctNum, condition):
         account = self._savingsAccounts.get(acctNum, None)
         account.blockAccount(condition)
 

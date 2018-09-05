@@ -11,19 +11,13 @@ class ManagerPanel():
     can add, remove, and edit account information"""
 
     def __init__(self):
+
         """commands for manager"""
+
         self._bank = Bank()
         self._checkingAccount = Account()
         self._savingsAccount = SavingsAccount()
-        self._commands = {}
-        self._commands["1"] = self.addCheckingAccount()
-        self._commands["2"] = self.addSavingsAccount()
-        self._commands["3"] = self.removeCheckingAccount()
-        self._commands["4"] = self.removeSavingsAccount()
-        self._commands["5"] = self.putBlockChecking()
-        self._commands["6"] = self.putBlockSavings()
-        self._commands["7"] = self.getAllAccounts()
-        self._commands["8"] = self.quit()
+        self._commands = {"1":self.addCheckingAccount, "2":self.addSavingsAccount, "3":self.removeCheckingAccount, "4":self.removeSavingsAccount, "5":self.blockCheckingAccount, "6":self.blockSavingsAccount, "7":self.getAllAccounts, "8":self.quit}
 
     def processing(self):
         while True:
@@ -42,7 +36,7 @@ class ManagerPanel():
             if self._commands.get(command, None) == None:
                 print("Invalid command. Try again.")
             else:
-                return self._commands[command]
+                return self._commands[command]()
 
 
     def addCheckingAccount(self):
@@ -69,21 +63,21 @@ class ManagerPanel():
 
     def blockCheckingAccount(self):
         acctNum = str(input("Enter account number: "))
-        status = input("Enter 'Blocked' to freeze account or 'Not blocked' to unfreeze account: ")
-        self._bank.blockChecking(acctNum, status)
-        if status == "Blocked":
+        condition = input("Enter 'Blocked' to freeze account or 'Not blocked' to unfreeze account: ")
+        self._bank.blockChecking(acctNum, condition)
+        if condition == "Blocked":
             return ("Account blocked.")
-        elif status == "Not blocked":
+        elif condition == "Unblocked":
             return ("Account unblocked.")
 
     def blockSavingsAccount(self):
         acctNum = str(input("Enter account number: "))
-        status = input("Enter 'Blocked' to freeze account or 'Not blocked' to unfreeze account: ")
-        self._bank.blockSavings(acctNum, status)
-        if status == "block":
+        condition = input("Enter 'Blocked' to freeze account or 'Unblocked' to unfreeze account: ")
+        self._bank.blockSavings(acctNum, condition)
+        if condition == "Block":
             return ("Account blocked.")
-        elif status == "Not blocked":
-            return ("Account unblocked")
+        elif condition == "Unblocked":
+            return ("Account unblocked.")
 
     def quit(self):
         ATM.EXIT_KEY = False
