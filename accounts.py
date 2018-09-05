@@ -1,6 +1,9 @@
 from random import randint
 
 class Account():
+
+    BLOCK = "Not blocked"
+
     """Initialize the code"""
     def __init__(self, name = None, balance = 0.0):
         self._name = name
@@ -40,9 +43,25 @@ class Account():
         # Returns account Number
         return self._accountNumber
 
+    def __str__(self):
+        # Returns information of the account
+        accounts = "Name:   " + self._name + "\n"
+        accounts += "Account Number:   " + self._accountNumber + "\n"
+        accounts += "Account Type:   " + self._accountType + "\n"
+        accounts += "Balance:   " + "$" + str(self._balance)
+        return accounts
+
+    def blockAccount(self, condition = "Not blocked"):
+        Accounts.BLOCK = condition
+        return codition
+
+
     def deposit(self, amount):
         """Makes a deposit to account """
-        if amount < 0:
+        checker = self.blockAccount()
+        if checker == "Blocked":
+            return ("Account Blocked. Contact Bank")
+        elif amount < 0:
             print("Deposit needs to be bigger than 0")
         else:
             self._balance += amount
@@ -50,7 +69,10 @@ class Account():
 
     def withdraw(self, amount):
         #balance gets reduced
-        if amount < 0:
+        checker = self.blockAccount()
+        if checker == "Blocked":
+            return ("Account Blocked. Contact Bank")
+        elif amount < 0:
             print("Amount needs to be bigger than 0")
         elif self._balance < amount:
             print("Insufficient funds.")
@@ -59,13 +81,6 @@ class Account():
         return None
 
 
-    def __str__(self):
-        # Returns information of the account
-        accounts = "Name:   " + self._name + "\n"
-        accounts += "Account Number:   " + self._accountNumber + "\n"
-        accounts += "Account Type:   " + self._accountType + "\n"
-        accounts += "Balance:   " + "$" + str(self._balance)
-        return accounts
 
 class SavingsAccount(Account):
     RATE = 0.03
@@ -75,6 +90,7 @@ class SavingsAccount(Account):
         Account.__init__(self, name, balance)
         self._count = 0
         self._accountType = "Savings"
+
 
     def computeInterest(self):
         #computes interest and it is deposit to account

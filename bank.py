@@ -5,20 +5,31 @@ from accounts import Account, SavingsAccount
 
 class Bank():
 
-    def __init__(self, fileName = None):
+    def __init__(self, c_fileName = "c_accounts.txt", s_fileName = "s_accounts.txt"):
         # initializes and loads the accounts into a dict
         self._checkingAccounts = {}
         self._savingsAccounts = {}
-        self._fileName = fileName
-        if fileName != None:
-            fileObj = open(self._fileName, 'r')
+        self._c_fileName = c_fileName
+        self._s_fileName = s_fileName
+        if c_fileName == "c_accounts.txt":
+            fileObj = open(self._c_fileName, 'r')
             while True:
                 try:
                     account = cPickle.load(fileObj)
-                    self.add(account)
+                    self.addChecking(account)
                 except EOFError:
                     fileObj.close()
                     break
+        if s_fileName == "s_accounts.txt":
+            fileObj = open(self._s_fileName, "r")
+            while True:
+                try:
+                    account = cPickle.load(fileObj)
+                    self.addSavings(account)
+                except EOFError:
+                    fileObj.close()
+                    break
+
 
 
     def __str__(self):
@@ -39,6 +50,14 @@ class Bank():
     def removeSavings(self, acctNum):
         #removes account from dict
         self._savingsAccounts.pop(acctNum, None)
+
+    def blockChecking(self, acctNum, condition = None):
+        account = self._checkingAccounts.get(acctNum, None)
+        account.blockAccount(condition)
+
+    def blockSavings(self, acctNum, condition = False):
+        account = self._savingsAccounts.get(acctNum, None)
+        account.blockAccount(condition)
 
     def getCheckingAccountInfo(self, acctNum):
         #Returns value associated with account number
