@@ -15,7 +15,7 @@ class Account():
     def accountNumber(self):
         # Generates random account number
         number = ""
-        for numbers in range(5):
+        for numbers in range(10):
             number += str(randint(0,9))
         return number
 

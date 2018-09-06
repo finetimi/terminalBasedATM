@@ -61,11 +61,13 @@ class Bank():
 
     def getCheckingAccountInfo(self, acctNum):
         #Returns value associated with account number
-        return self._checkingAccounts.get(acctNum, None)
+        account = self._checkingAccounts.get(acctNum, None)
+        return account
 
     def getSavingsAccountInfo(self, acctNum):
         #Returns value associated with account number
-        return self._savingsAccounts.get(acctNum, None)
+        account = self._savingsAccounts.get(acctNum, None)
+        return account
 
     def computeInterest(self):
         #add total interest earned by all accounts

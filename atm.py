@@ -22,7 +22,7 @@ class ManagerPanel():
     def processing(self):
         while True:
             if ManagerPanel.EXIT_KEY == False:
-                print("Have a nice day!")
+                print("\nHave a nice day!\n")
                 break
             print("1  Add New Checking Account;")
             print("2  Add New Savings Account;")
@@ -43,69 +43,73 @@ class ManagerPanel():
 
 
     def addCheckingAccount(self):
-        name = input("Enter costumer full name: ")
+        name = input("\nEnter costumer full name: ")
         account = self._checkingAccount(name)
         self._bank.addChecking(account)
         self._bank.saveCheking("c_accounts.txt")
-        print ("%s is now an active costumer." % name)
+        print ("%s is now an active costumer.\n" % name)
 
     def addSavingsAccount(self):
-        name = input("Enter costumer full name: ")
+        name = input("\nEnter costumer full name: ") + "\n"
         account = self._savingsAccount(name)
         self._bank.addSavings(account)
         self._bank.saveSavings("s_accounts.txt")
-        print ("%s is now an active costumer." % name)
+        print ("%s is now an active costumer.\n" % name)
 
     def removeCheckingAccount(self):
-        acctNum = str(input("Enter account number: "))
+        acctNum = str(input("\nEnter account number: "))
         self._bank.removeChecking(acctNum)
         self._bank.saveCheking("c_accounts.txt")
-        print ("Account %s deleted." % acctNum)
+        print ("Account %s deleted.\n" % acctNum)
 
     def removeSavingsAccount(self):
-        acctNum = str(input("Enter account number: "))
+        acctNum = str(input("\nEnter account number: "))
         self._bank.removeSavings(acctNum)
         self._bank.saveSavings("s_accounts.txt")
-        print ("Account %s deleted." % acctNum)
+        print ("Account %s deleted.\n" % acctNum)
 
     def blockCheckingAccount(self):
-        acctNum = str(input("Enter account number: "))
+        acctNum = str(input("\nEnter account number: "))
         condition = input("Enter 'Blocked' to freeze account or 'Not blocked' to unfreeze account: ")
         self._bank.blockChecking(acctNum, condition)
         if condition == "Blocked":
-            print ("Account blocked.")
+            print ("Account blocked.\n")
         elif condition == "Unblocked":
-            print ("Account unblocked.")
+            print ("Account unblocked.\n")
 
     def blockSavingsAccount(self):
-        acctNum = str(input("Enter account number: "))
+        acctNum = str(input("\nEnter account number: "))
         condition = input("Enter 'Blocked' to freeze account or 'Unblocked' to unfreeze account: ")
         self._bank.blockSavings(acctNum, condition)
         if condition == "Block":
-            print ("Account blocked.")
+            print ("Account blocked.\n")
         elif condition == "Unblocked":
-            print ("Account unblocked.")
+            print ("Account unblocked.\n")
 
     def getCheckingAccount(self):
-        acctNum = int(input('Enter account number:'))
-        print(self._bank.getCheckingAccountInfo(acctNum))
+        acctNum = input('\nEnter account number:')
+        account = self._bank.getCheckingAccountInfo(acctNum)
+        print(account + "\n")
 
     def getSavingsAccount(self):
-        acctNum = int(input('Enter account number:'))
-        print(self._bank.getSavingsAccountInfo(acctNum))
+        acctNum = input('\nEnter account number:')
+        account = self._bank.getSavingsAccountInfo(acctNum)
+        print(account + "\n")
 
     def quit(self):
         ManagerPanel.EXIT_KEY = False
 
     def getAccounts(self):
-        for key, value in self._bank._checkingAccounts.items():
-            if value == None:
-                print("No Accounts.")
-            print (value + "\n")
-        for key, value in self._bank._savingsAccounts.items():
-            if value == None:
-                print("No Accounts.")
-            print (value + "\n")
+        if self._bank._checkingAccounts == {}:
+            print("\nNo Checking Accounts.")
+        else:
+            for key, value in self._bank._checkingAccounts.items():
+                print (str(value) + "\n")
+        if self._bank._savingsAccounts == {}:
+            print("\nNo Savings Accounts.\n")
+        else:
+            for key, value in self._bank._savingsAccounts.items():
+                print (str(value) + "\n")
 
 
 # class ATM():
