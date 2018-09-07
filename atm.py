@@ -147,11 +147,19 @@ class ManagerPanel():
                 print (str(value) + "\n")
 
 
-# class ATM():
-#
-#     """Terminal based ATM. Client will be able to perform
-#     basic transactions."""
-#
-#     def __init__(self):
-#         """List of commands for the ATM, it should also load
-#         some accounts in order to be able to function"""
+class ATM():
+
+    """Terminal based ATM. Client will be able to perform
+    basic transactions."""
+
+    EXIT_KEY = True
+
+    def __init__(self):
+        """List of commands for the ATM, it should also load
+        some accounts in order to be able to function"""
+        self._bank = Bank()
+        self._acctNum = str(input("Enter Account number: "))
+        self._checkingAccount = self._bank.getCheckingAccountInfo(self._acctNum)
+        self._savingsAccount = self._bank.getSavingsAccountInfo(self._acctNum)
+        if self._checkingAccount == None or self._savingsAccount == None:
+            
