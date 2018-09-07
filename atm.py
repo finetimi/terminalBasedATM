@@ -113,23 +113,23 @@ class ManagerPanel():
 
     def getCheckingAccount(self):
         """Gets account by calling a method from the bank class"""
-        acctNum = input('\nEnter account number:')
+        acctNum = str(input('\nEnter account number:'))
         if self._bank.getCheckingAccountInfo(acctNum) == None:
             print("Inexistent Account.")
         else:
             account = self._bank.getCheckingAccountInfo(acctNum)
-            print(account + "\n")
+            print("\n" + str(account) + "\n")
 
-        def getSavingsAccount(self):
+    def getSavingsAccount(self):
         """Gets account by calling a method from the bank class"""
-        acctNum = input('\nEnter account number:')
+        acctNum = str(input('\nEnter account number:'))
         if self._bank.getSavingsAccountInfo(acctNum) == None:
             print("Inexistent Account.")
         else:
             account = self._bank.getSavingsAccountInfo(acctNum)
-            print(account + "\n")
+            print("\n" + str(account) + "\n")
 
-        def quit(self):
+    def quit(self):
         """Sets the key to fall  which consequently breaks the loop"""
         ManagerPanel.EXIT_KEY = False
 

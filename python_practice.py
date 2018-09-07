@@ -2,12 +2,8 @@ from bank import *
 from accounts import *
 from atm import *
 
-# def main():
-#     manager = ManagerPanel()
-#     return manager.processing()
-#
-# main()
+def main():
+    manager = ManagerPanel()
+    return manager.processing()
 
-bank = Bank()
-for keys in bank._savingsAccounts.keys():
-    print (keys)
+main()
