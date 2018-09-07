@@ -41,6 +41,7 @@ class Bank():
         self._checkingAccounts[account.getAccountNumber()] = account
 
     def addSavings(self, account):
+        #add savings account into dict
         self._savingsAccounts[account.getAccountNumber()] = account
 
     def removeChecking(self, acctNum):
@@ -52,10 +53,12 @@ class Bank():
         self._savingsAccounts.pop(acctNum, None)
 
     def blockChecking(self, acctNum, condition):
+        """Checks if account exists in dict; pass condition to an Account method."""
         account = self._checkingAccounts.get(acctNum, None)
         account.blockAccount(condition)
 
     def blockSavings(self, acctNum, condition):
+        """Checks if account exists in dict; pass condition to an Account method."""
         account = self._savingsAccounts.get(acctNum, None)
         account.blockAccount(condition)
 

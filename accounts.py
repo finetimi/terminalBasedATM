@@ -52,6 +52,7 @@ class Account():
         return accounts
 
     def blockAccount(self, condition = None):
+        """Condition changes value of class variable Block"""
         if condition == "Blocked":
             Account.BLOCK = True
         elif condition == "Unblocked":
@@ -60,7 +61,7 @@ class Account():
 
 
     def deposit(self, amount):
-        """Makes a deposit to account """
+        #checkers checks if account is blocked; balance is increased
         checker = self.blockAccount()
         if checker == True:
             return ("Account Blocked. Contact bank for more information.")
@@ -102,7 +103,7 @@ class SavingsAccount(Account):
         return interest
 
     def withdraw(self, amount):
-        #balance gets reduced
+        #checkers checks if account is blocked; balance gets reduced
         checker = Account.blockAccount()
         if checker == True:
             return("Account blocked, contact bank for more information.")

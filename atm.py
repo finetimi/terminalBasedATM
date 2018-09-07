@@ -12,7 +12,8 @@ class ManagerPanel():
 
     def __init__(self):
 
-        """commands for manager"""
+        """commands for manager,
+        inicialized bank class, and passed to other classes"""
 
         self._bank = Bank()
         self._checkingAccount = Account
@@ -20,6 +21,8 @@ class ManagerPanel():
         self._commands = {"1":self.addCheckingAccount, "2":self.addSavingsAccount, "3":self.removeCheckingAccount, "4":self.removeSavingsAccount, "5":self.blockCheckingAccount, "6":self.blockSavingsAccount, "7":self.getCheckingAccount, "8": self.getSavingsAccount, "9": self.getAccounts, "10":self.quit}
 
     def processing(self):
+        """Main function of this classes. Prints instructions to Manager;
+        gets input from user, checks if command is valid; calls command from dictionary"""
         while True:
             if ManagerPanel.EXIT_KEY == False:
                 print("\nHave a nice day!\n")
@@ -43,6 +46,8 @@ class ManagerPanel():
 
 
     def addCheckingAccount(self):
+        """Gets input from manager, calls a method from bank class,
+         and creates a new checking account, saves account into a file"""
         name = input("\nEnter costumer full name: ")
         account = self._checkingAccount(name)
         self._bank.addChecking(account)
@@ -50,6 +55,8 @@ class ManagerPanel():
         print ("%s is now an active costumer.\n" % name)
 
     def addSavingsAccount(self):
+        """Gets input from manager, calls a method from bank class,
+         and creates a new savings account, saves account into a file"""
         name = input("\nEnter costumer full name: ") + "\n"
         account = self._savingsAccount(name)
         self._bank.addSavings(account)
@@ -57,49 +64,77 @@ class ManagerPanel():
         print ("%s is now an active costumer.\n" % name)
 
     def removeCheckingAccount(self):
+        """Gets input from manager; input gets account from dict, accounts is removed, clears accounts storage fiel """
         acctNum = str(input("\nEnter account number: "))
-        self._bank.removeChecking(acctNum)
-        self._bank.saveCheking("c_accounts.txt")
-        print ("Account %s deleted.\n" % acctNum)
+        if self._bank.getCheckingAccountInfo(acctNum) == None:
+            print("Inexistent Account.")
+        else:
+            self._bank.removeChecking(acctNum)
+            self._bank.saveCheking("c_accounts.txt")
+            print ("Account %s deleted.\n" % acctNum)
 
     def removeSavingsAccount(self):
+        """Gets input from manager; input gets account from dict, accounts is removed, clears accounts storage fiel """
         acctNum = str(input("\nEnter account number: "))
-        self._bank.removeSavings(acctNum)
-        self._bank.saveSavings("s_accounts.txt")
-        print ("Account %s deleted.\n" % acctNum)
+        if self._bank.getSavingsAccountInfo(acctNum) == None:
+            print("Inexistent Account.")
+        else:
+            self._bank.removeSavings(acctNum)
+            self._bank.saveSavings("s_accounts.txt")
+            print ("Account %s deleted.\n" % acctNum)
 
     def blockCheckingAccount(self):
+        """Gets acount from input, enters condition, initializes a method from the bank class that unables costumers from accessing their accounts."""
         acctNum = str(input("\nEnter account number: "))
-        condition = input("Enter 'Blocked' to freeze account or 'Not blocked' to unfreeze account: ")
-        self._bank.blockChecking(acctNum, condition)
-        if condition == "Blocked":
-            print ("Account blocked.\n")
-        elif condition == "Unblocked":
-            print ("Account unblocked.\n")
+        if self._bank.getCheckingAccountInfo(acctNum) == None:
+            print("Inexistent Account.")
+        else:
+            condition = input("Enter 'Blocked' to freeze account or 'Not blocked' to unfreeze account: ")
+            self._bank.blockChecking(acctNum, condition)
+            self._bank.saveCheking("c_accounts.txt")
+            if condition == "Blocked":
+                print ("Account blocked.\n")
+            elif condition == "Unblocked":
+                print ("Account unblocked.\n")
 
     def blockSavingsAccount(self):
+        """Gets acount from input, enters condition, initializes a method from the bank class that unables costumers from accessing their accounts."""
         acctNum = str(input("\nEnter account number: "))
-        condition = input("Enter 'Blocked' to freeze account or 'Unblocked' to unfreeze account: ")
-        self._bank.blockSavings(acctNum, condition)
-        if condition == "Block":
-            print ("Account blocked.\n")
-        elif condition == "Unblocked":
-            print ("Account unblocked.\n")
+        if self._bank.getSavingsAccountInfo(acctNum) == None:
+            print("Inexistent Account.")
+        else:
+            condition = input("Enter 'Blocked' to freeze account or 'Unblocked' to unfreeze account: ")
+            self._bank.blockSavings(acctNum, condition)
+            self._bank.saveSavings("c_accounts.txt")
+            if condition == "Block":
+                print ("Account blocked.\n")
+            elif condition == "Unblocked":
+                print ("Account unblocked.\n")
 
     def getCheckingAccount(self):
+        """Gets account by calling a method from the bank class"""
         acctNum = input('\nEnter account number:')
-        account = self._bank.getCheckingAccountInfo(acctNum)
-        print(account + "\n")
+        if self._bank.getCheckingAccountInfo(acctNum) == None:
+            print("Inexistent Account.")
+        else:
+            account = self._bank.getCheckingAccountInfo(acctNum)
+            print(account + "\n")
 
-    def getSavingsAccount(self):
+        def getSavingsAccount(self):
+        """Gets account by calling a method from the bank class"""
         acctNum = input('\nEnter account number:')
-        account = self._bank.getSavingsAccountInfo(acctNum)
-        print(account + "\n")
+        if self._bank.getSavingsAccountInfo(acctNum) == None:
+            print("Inexistent Account.")
+        else:
+            account = self._bank.getSavingsAccountInfo(acctNum)
+            print(account + "\n")
 
-    def quit(self):
+        def quit(self):
+        """Sets the key to fall  which consequently breaks the loop"""
         ManagerPanel.EXIT_KEY = False
 
     def getAccounts(self):
+        """Checks for accounts in bank class accounts dictionaries, and if populated, runs a loop to get all the accounts and prints its information"""
         if self._bank._checkingAccounts == {}:
             print("\nNo Checking Accounts.")
         else:
