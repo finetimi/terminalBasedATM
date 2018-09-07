@@ -161,5 +161,15 @@ class ATM():
         self._acctNum = str(input("Enter Account number: "))
         self._checkingAccount = self._bank.getCheckingAccountInfo(self._acctNum)
         self._savingsAccount = self._bank.getSavingsAccountInfo(self._acctNum)
-        if self._checkingAccount == None or self._savingsAccount == None:
-            
+        self._loggedIn = None
+        if self._checkingAccount == None:
+            print("No account associated with account number: %s" % self._acctNum)
+        else:
+            self._loggedIn = self._checkingAccount
+        if self._checkingAccount == None:
+            print("No account associated with account number: %s" % self._acctNum)
+        else:
+            self._loggedIn = elf._checkingAccount
+        self._commands = {"1": self.getBalance,"2":self.deposit, "3": self.withdraw, "4": self.quit}
+
+    def getBalance

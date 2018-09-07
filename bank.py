@@ -72,6 +72,17 @@ class Bank():
         account = self._savingsAccounts.get(acctNum, None)
         return account
 
+    def getBalance(self, acctNum):
+        accountCheking = self.getCheckingAccountInfo(acctNum)
+        accountSavings = self.getSavingsAccountInfo(acctNum)
+        if accountCheking == None:
+            balance = accountSavings.getBalance()
+            return balance
+        elif accountSavings == None:
+            balance = accountCheking.getBalance()
+            return balance
+
+
     def computeInterest(self):
         #add total interest earned by all accounts
         total = 0.0
@@ -100,3 +111,5 @@ class Bank():
         for account in self._savingsAccounts.values():
             cPickle.dump(account, fileObj)
         fileObj.close()
+
+    def atmInicialization(self, acctNum):
