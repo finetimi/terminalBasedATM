@@ -112,4 +112,4 @@ class Bank():
             cPickle.dump(account, fileObj)
         fileObj.close()
 
-    def atmInicialization(self, acctNum):
+    # def atmInicialization(self, acctNum):

@@ -153,23 +153,81 @@ class ATM():
     basic transactions."""
 
     EXIT_KEY = True
+    TRIES = 3
+    QUIT = True
 
     def __init__(self):
         """List of commands for the ATM, it should also load
         some accounts in order to be able to function"""
         self._bank = Bank()
-        self._acctNum = str(input("Enter Account number: "))
-        self._checkingAccount = self._bank.getCheckingAccountInfo(self._acctNum)
-        self._savingsAccount = self._bank.getSavingsAccountInfo(self._acctNum)
+        self._checkingAccount = self._bank.getCheckingAccountInfo
+        self._savingsAccount = self._bank.getSavingsAccountInfo
         self._loggedIn = None
-        if self._checkingAccount == None:
-            print("No account associated with account number: %s" % self._acctNum)
-        else:
-            self._loggedIn = self._checkingAccount
-        if self._checkingAccount == None:
-            print("No account associated with account number: %s" % self._acctNum)
-        else:
-            self._loggedIn = elf._checkingAccount
-        self._commands = {"1": self.getBalance,"2":self.deposit, "3": self.withdraw, "4": self.quit}
+        self._counterChecking = 0
+        self._counterSavings = 0
+        self._commands = {"3": self.getBalance,"1": self.deposit, "2": self.withdraw, "5": self.quit, "4": self.changePin}
 
-    def getBalance
+    def processing(self):
+        while True:
+            if self._counterChecking >= ATM.TRIES and self._counterSavings >= ATM.TRIES:
+                print("It seems like you don't know your pin. Police is on the way to help.")
+                break
+            if ATM.QUIT == False:
+                print("Have a nice day!")
+                break
+            acctNum = str(input("Enter Account number. (To quit, enter 'q'.)")):
+            if acctNum == "q":
+                ATM.QUIT = False
+            verifier1 = self._checkingAccount(acctNum)
+            verifier2 = self._savingsAccount(acctNum)
+            if verifier1 == None or len(acctNum) < 10:
+                print("Invalid or Inexistent Accout Number. Try again")
+                self._counterChecking += 1
+            elif verifier2 == None or len(acctNum) < 10:
+                print("Invalid or Inexistent Accout Number. Try again")
+            elif verifier1 != None:
+                self._loggedIn = verifier1
+                self._counterChecking = 0
+                pin = str(input("Enter Pin: "))
+                if pin != verifier1.self._pinNumber:
+                    print("Wrong Pin, try again.")
+                    self._counterChecking += 1
+                else:
+                    while True:
+                        if ATM.EXIT_KEY == False:
+                            print("Have a nice day!\n")
+                            break
+                        print("1   Deposit Funds;")
+                        print("2   Withdraw Funds;")
+                        print("3   Check Balance;")
+                        print("4   Change Pin;")
+                        print("5   Quit;\n")
+                        number = str(input("Enter number: "))
+                        theCommand = self._commands.get(number, None)
+                        if theCommand == None:
+                            print("Inexistent Command. Try Again.")
+                        else:
+                            theCommand()
+            elif verifier2 != None:
+                self._loggedIn = verifier2
+                self._counterSavings = 0
+                pin = str(input("Enter Pin: "))
+                if pin != verifier2.self._pinNumber:
+                    print("Wrong Pin, try again.")
+                    self._counterSavings += 1
+                else:
+                    while True:
+                        if ATM.EXIT_KEY == False:
+                            print("Have a nice day!\n")
+                            break
+                        print("1   Deposit Funds;")
+                        print("2   Withdraw Funds;")
+                        print("3   Check Balance;")
+                        print("4   Change Pin;")
+                        print("5   Quit;\n")
+                        number = str(input("Enter number: "))
+                        theCommand = self._commands.get(number, None)
+                        if theCommand == None:
+                            print("Inexistent Command. Try Again.")
+                        else:
+                            theCommand()
