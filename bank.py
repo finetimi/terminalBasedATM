@@ -34,7 +34,7 @@ class Bank():
 
     def __str__(self):
         #returns the general information of all accounts
-        return "\n".join(map(str, self._checkingAccounts.values())) + "\n" + "\n" + "\n".join(map(str,self._savingsAccounts.values()))
+        return "\n".join(map(str, self._checkingAccounts.values())) + "\n\n" +"\n".join(map(str,self._savingsAccounts.values()))
 
     def addChecking(self, account):
         #add checking account into a dict
@@ -62,6 +62,14 @@ class Bank():
         account = self._savingsAccounts.get(acctNum, None)
         account.blockAccount(condition)
 
+    def unblockWithdrawals(self, acctNum):
+        # Resetting monthly savings withdrawals
+        account = self._savingsAccounts.get(acctNum, None)
+        if account != None:
+            account.reset()
+        else:
+            return
+
     def getCheckingAccountInfo(self, acctNum):
         #Returns value associated with account number
         account = self._checkingAccounts.get(acctNum, None)
@@ -73,14 +81,28 @@ class Bank():
         return account
 
     def getBalance(self, acctNum):
+        # Get balance of Checking or savings accounts, by accessing dict. Checks if accounts exist or not.
         accountCheking = self.getCheckingAccountInfo(acctNum)
         accountSavings = self.getSavingsAccountInfo(acctNum)
-        if accountCheking == None:
-            balance = accountSavings.getBalance()
-            return balance
-        elif accountSavings == None:
-            balance = accountCheking.getBalance()
-            return balance
+        if accountCheking == None and accountSavings == None:
+            print("Incorrect Account Number.")
+        elif accountSavings != None:
+            return accountCheking.getBalance()
+        elif accountSavings != None:
+            return accountSavings.getBalance()
+
+    def getPin(self, acctNum):
+        # Get pin of Checking or savings accounts, by accessing dict. Checks if accounts exist or not.
+        accountCheking = self.getCheckingAccountInfo(acctNum)
+        accountSavings = self.getSavingsAccountInfo(acctNum)
+        if accountCheking == None and accountSavings == None:
+            print("Incorrect Account Number.")
+        elif accountCheking != None:
+            print (accountCheking._pinNumber)
+        elif accountSavings != None:
+            print (accountSavings._pinNumber)
+
+
 
 
     def computeInterest(self):
@@ -111,5 +133,3 @@ class Bank():
         for account in self._savingsAccounts.values():
             cPickle.dump(account, fileObj)
         fileObj.close()
-
-    # def atmInicialization(self, acctNum):

@@ -3,7 +3,11 @@ from accounts import *
 from atm import *
 
 def main():
-    manager = ManagerPanel()
-    return manager.processing()
+    atm = ATM()
+    return atm.processing()
 
 main()
+
+# bank = Bank()
+#
+# print(bank)

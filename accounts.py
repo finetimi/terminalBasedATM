@@ -45,10 +45,10 @@ class Account():
 
     def __str__(self):
         # Returns information of the account
-        accounts = "Name:   " + self._name + "\n"
+        accounts = "\nName:   " + self._name + "\n"+ "\n"
         accounts += "Account Number:   " + self._accountNumber + "\n"
         accounts += "Account Type:   " + self._accountType + "\n"
-        accounts += "Balance:   " + "$" + str(self._balance)
+        accounts += "Balance:   " + "$" + str(self._balance) + "\n"
         return accounts
 
     def blockAccount(self, condition = None):
@@ -95,7 +95,6 @@ class SavingsAccount(Account):
         self._count = 0
         self._accountType = "Savings"
 
-
     def computeInterest(self):
         #computes interest and it is deposit to account
         interest = self._balance * SavingsAccount.RATE
@@ -104,13 +103,17 @@ class SavingsAccount(Account):
 
     def withdraw(self, amount):
         #checkers checks if account is blocked; balance gets reduced
-        checker = Account.blockAccount()
+        checker = Account.blockAccount(self, condition = None)
         if checker == True:
             return("Account blocked, contact bank for more information.")
         elif self._count == SavingsAccount.LIMIT:
-            return ("Reach the withdrawal limit.")
+            return ("\nReach the withdrawal limit. Contact bank.\n")
         else:
-            withdrawal = Account.withdraw(amount)
+            withdrawal = Account.withdraw(self, amount)
             if withdrawal == None:
                     self._count += 1
-            return withdrawal
+            return ("\nAmount Withdrew: $%.2f" % amount + "\n")
+
+    def reset(self):
+        # Resets monthly withdrawals
+        self._count = 0
