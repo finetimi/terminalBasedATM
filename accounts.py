@@ -2,7 +2,6 @@ from random import randint
 
 class Account():
 
-    BLOCK = False
 
     """Initialize the code"""
     def __init__(self, name = None, balance = 0.0):
@@ -11,6 +10,7 @@ class Account():
         self._accountNumber = self.accountNumber()
         self._pinNumber = self.pinGenerator()
         self._accountType = "Checking"
+        self._block = False
 
     def accountNumber(self):
         # Generates random account number
@@ -49,21 +49,25 @@ class Account():
         accounts += "Account Number:   " + self._accountNumber + "\n"
         accounts += "Account Type:   " + self._accountType + "\n"
         accounts += "Balance:   " + "$" + str(self._balance) + "\n"
+        if self._block == True:
+            status = "Blocked"
+        else:
+            status = "Unblocked"
+        accounts += "Status:   " + status + "\n"
         return accounts
 
     def blockAccount(self, condition):
         """Condition changes value of class variable Block"""
         if condition == "1":
-            Account.BLOCK = True
+            self._block = True
         elif condition == "2":
-            Account.BLOCK = False
-
+            self._block = False
 
 
     def deposit(self, amount):
         #checkers checks if account is blocked; balance is increased
-        if Account.BLOCK == True:
-            return ("Account Blocked. Contact bank for more information.")
+        if self._block == True:
+            return "1"
         elif amount < 0:
             print("Deposit needs to be bigger than 0")
         else:
@@ -72,8 +76,8 @@ class Account():
 
     def withdraw(self, amount):
         #balance gets reduced
-        if Account.BLOCK == True:
-            return ("Account Blocked. Contact bank for more information.")
+        if self._block == True:
+            return "1"
         elif amount < 0:
             print("Amount needs to be bigger than 0")
         elif self._balance < amount:
@@ -101,8 +105,8 @@ class SavingsAccount(Account):
 
     def withdraw(self, amount):
         #checkers checks if account is blocked; balance gets reduced
-        if Account.BLOCK == True:
-            return("Account blocked, contact bank for more information.")
+        if self._block == True:
+            return "1"
         elif self._count == SavingsAccount.LIMIT:
             return ("\nReach the withdrawal limit. Contact bank.\n")
         else:

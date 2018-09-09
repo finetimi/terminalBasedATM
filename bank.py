@@ -55,7 +55,10 @@ class Bank():
     def blockChecking(self, acctNum, condition):
         """Checks if account exists in dict; pass condition to an Account method."""
         account = self._checkingAccounts.get(acctNum, None)
-        account.blockAccount(condition)
+        if account != None:
+            account.blockAccount(condition)
+        else:
+            print("Inexistent Account.")
 
     def blockSavings(self, acctNum, condition):
         """Checks if account exists in dict; pass condition to an Account method."""

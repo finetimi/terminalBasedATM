@@ -29,12 +29,12 @@ class ManagerPanel():
             if ManagerPanel.EXIT_KEY == False:
                 print("\nHave a nice day!\n")
                 break
-            print("1  Add New Checking Account;")
+            print("\n1  Add New Checking Account;")
             print("2  Add New Savings Account;")
             print("3  Remove Existing Checking Account;")
             print("4  Remove Existing Savings Account;")
-            print("5  Block Checking Account;")
-            print("6  Block Savings Account;")
+            print("5  Block/Unblock Checking Account;")
+            print("6  Block/Unblock Savings Account;")
             print("7  Resetting Withdrawals;")
             print("8  Get Costumer Information (Checking);")
             print("9  Get Costumer Information (Savings);")
@@ -60,7 +60,7 @@ class ManagerPanel():
     def addSavingsAccount(self):
         """Gets input from manager, calls a method from bank class,
          and creates a new savings account, saves account into a file"""
-        name = input("\nEnter costumer full name: ") + "\n"
+        name = input("\nEnter costumer full name: ")
         account = self._savingsAccount(name)
         self._bank.addSavings(account)
         self._bank.saveSavings("s_accounts.txt")
@@ -107,7 +107,7 @@ class ManagerPanel():
             print("Inexistent Account.")
         else:
             condition = input("Enter '1' to freeze account or '2' to unfreeze account: ")
-            self._bank.blockSavings(acctNum, condition.title())
+            self._bank.blockSavings(acctNum, condition)
             self._bank.saveSavings("s_accounts.txt")
             if condition == "1":
                 print ("Account blocked.\n")
@@ -259,26 +259,39 @@ class ATM():
         """Checks account type, deposit money into account and saves it into dict stored in Bank object/class"""
         if self._loggedIn._accountType == "Checking":
             money = float(input("Enter deposit amount: "))
-            self._loggedIn.deposit(money)
-            print("\nDeposit Amount: $%.2f" % money + "\n")
-            self._bank.saveCheking("c_accounts.txt")
+            if self._loggedIn.deposit(money) == "1":
+                print("Account Blocked. Contact bank for more information.")
+                return
+            else:
+                print("\nDeposit Amount: $%.2f" % money + "\n")
+                self._bank.saveCheking("c_accounts.txt")
         elif self._loggedIn._accountType == "Savings":
             money = float(input("Enter deposit amount: "))
-            self._loggedIn.deposit(money)
-            print("\nDeposit Amount: $%.2f" % money + "\n")
-            self._bank.saveSavings("s_accounts.txt")
+            if self._loggedIn.deposit(money) == "1":
+                print("Account Blocked. Contact bank for more information.")
+                return
+            else:
+                print("\nDeposit Amount: $%.2f" % money + "\n")
+                self._bank.saveSavings("s_accounts.txt")
 
     def withdraw(self):
         """Checks account type, withdraws money from account and saves it into dict stored in Bank object/class"""
         if self._loggedIn._accountType == "Checking":
-            money = float(input("withdrawal amount: "))
-            self._loggedIn.withdraw(money)
-            print("\nAmount Withdrew: $%.2f" % money + "\n")
-            self._bank.saveCheking("c_accounts.txt")
+            money = float(input("Withdrawal amount: "))
+            if self._loggedIn.withdraw(money) == "1":
+                print("Account Blocked. Contact bank for more information.")
+                return
+            else:
+                print("\nAmount Withdrew: $%.2f" % money + "\n")
+                self._bank.saveCheking("c_accounts.txt")
         elif self._loggedIn._accountType == "Savings":
             money = float(input("withdrawal amount: "))
-            print(self._loggedIn.withdraw(money))
-            self._bank.saveSavings("s_accounts.txt")
+            if self._loggedIn.withdraw(money) == "1":
+                print("Account Blocked. Contact bank for more information.")
+                return
+            else:
+                print(self._loggedIn.withdraw(money))
+                self._bank.saveSavings("s_accounts.txt")
 
     def getBalance(self):
         # Gets balance for user
@@ -289,21 +302,24 @@ class ATM():
         """Checks to see if user has old pin, if not, breaks. Gets new pin and confirms it."""
         while True:
             if self._counterChangePin == ATM.TRIES:
-                print("It seems like you don't know your pin. Police is on the way to help.")
-                break
+                print("\nIt seems like you don't know your pin. Police is on the way to help.\n")
+                ATM.EXIT_KEY = False
+                return
             if self._loggedIn._accountType == "Checking":
                 old_pin = str(input("Current Pin: "))
                 if old_pin == self._loggedIn._pinNumber:
                     new_pin = str(input("New Pin: "))
-                    if len(new_pin) > 5:
+                    if len(new_pin) != 4:
                         print("Insert 4 digit Pin.")
-                    new_pin_confirmation = str(input("Confirm New Pin: "))
-                    if new_pin != new_pin_confirmation:
-                        print("Confirmation Pin does not match new Pin. Try again.")
-                    self._loggedIn._pinNumber = new_pin_confirmation
-                    self._bank.saveCheking("c_accounts.txt")
-                    print('Pin number changed successfully.')
-                    return
+                    else:
+                        new_pin_confirmation = str(input("Confirm New Pin: "))
+                        if new_pin != new_pin_confirmation:
+                            print("Confirmation Pin does not match new Pin. Try again.")
+                        else:
+                            self._loggedIn._pinNumber = new_pin_confirmation
+                            self._bank.saveCheking("c_accounts.txt")
+                            print('Pin number changed successfully.')
+                            return
                 else:
                     print("Incorrect Pin. Try again.")
                     self._counterChangePin += 1
@@ -311,15 +327,17 @@ class ATM():
                 old_pin = str(input("Current Pin: "))
                 if old_pin == self._loggedIn._pinNumber:
                     new_pin = str(input("New Pin: "))
-                    if len(new_pin) > 5:
+                    if len(new_pin) != 4:
                         print("Insert 4 digit Pin.")
-                    new_pin_confirmation = str(input("Confirm New Pin: "))
-                    if new_pin != new_pin_confirmation:
-                        print("Confirmation Pin does not match new Pin. Try again.")
-                    self._loggedIn._pinNumber = new_pin_confirmation
-                    self._bank.saveSavings("s_accounts.txt")
-                    print('Pin number changed successfully.')
-                    return
+                    else:
+                        new_pin_confirmation = str(input("Confirm New Pin: "))
+                        if new_pin != new_pin_confirmation:
+                            print("Confirmation Pin does not match new Pin. Try again.")
+                        else:
+                            self._loggedIn._pinNumber = new_pin_confirmation
+                            self._bank.saveSavings("s_accounts.txt")
+                            print('Pin number changed successfully.')
+                            return
                 else:
                     print("Incorrect Pin. Try again.")
                     self._counterChangePin += 1
