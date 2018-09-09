@@ -60,7 +60,10 @@ class Bank():
     def blockSavings(self, acctNum, condition):
         """Checks if account exists in dict; pass condition to an Account method."""
         account = self._savingsAccounts.get(acctNum, None)
-        account.blockAccount(condition)
+        if account != None:
+            account.blockAccount(condition)
+        else:
+            print("Inexistent Account.")
 
     def unblockWithdrawals(self, acctNum):
         # Resetting monthly savings withdrawals

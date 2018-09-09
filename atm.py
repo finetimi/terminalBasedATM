@@ -18,7 +18,9 @@ class ManagerPanel():
         self._bank = Bank()
         self._checkingAccount = Account
         self._savingsAccount = SavingsAccount
-        self._commands = {"1":self.addCheckingAccount, "2":self.addSavingsAccount, "3":self.removeCheckingAccount, "4":self.removeSavingsAccount, "5":self.blockCheckingAccount, "6":self.blockSavingsAccount, "9":self.unblockWithdrawals, "8":self.getCheckingAccount, "9": self.getSavingsAccount, "10": self.getAccounts, "11":self.quit}
+        self._commands = {"1":self.addCheckingAccount, "2":self.addSavingsAccount, "3":self.removeCheckingAccount, \
+        "4":self.removeSavingsAccount, "5":self.blockCheckingAccount, "6":self.blockSavingsAccount, "7":self.unblockWithdrawals, "8":self.getCheckingAccount, "9": self.getSavingsAccount, "10": self.getAccounts,\
+         "11": self.quit }
 
     def processing(self):
         """Main function of this classes. Prints instructions to Manager;
@@ -36,7 +38,7 @@ class ManagerPanel():
             print("7  Resetting Withdrawals;")
             print("8  Get Costumer Information (Checking);")
             print("9  Get Costumer Information (Savings);")
-            print("10  Get All Accounts;")
+            print("10 Get All Accounts;")
             print("11 Quit\n")
             command = input("Enter number: ")
             theCommand = self._commands.get(command, None)
@@ -90,12 +92,12 @@ class ManagerPanel():
         if self._bank.getCheckingAccountInfo(acctNum) == None:
             print("Inexistent Account.")
         else:
-            condition = input("Enter 'Blocked' to freeze account or 'Not blocked' to unfreeze account: ")
+            condition = input("Enter '1' to freeze account or '2' to unfreeze account: ")
             self._bank.blockChecking(acctNum, condition)
             self._bank.saveCheking("c_accounts.txt")
-            if condition == "Blocked":
+            if condition == "1":
                 print ("Account blocked.\n")
-            elif condition == "Unblocked":
+            elif condition == "2":
                 print ("Account unblocked.\n")
 
     def blockSavingsAccount(self):
@@ -104,12 +106,12 @@ class ManagerPanel():
         if self._bank.getSavingsAccountInfo(acctNum) == None:
             print("Inexistent Account.")
         else:
-            condition = input("Enter 'Blocked' to freeze account or 'Unblocked' to unfreeze account: ")
-            self._bank.blockSavings(acctNum, condition)
-            self._bank.saveSavings("c_accounts.txt")
-            if condition == "Block":
+            condition = input("Enter '1' to freeze account or '2' to unfreeze account: ")
+            self._bank.blockSavings(acctNum, condition.title())
+            self._bank.saveSavings("s_accounts.txt")
+            if condition == "1":
                 print ("Account blocked.\n")
-            elif condition == "Unblocked":
+            elif condition == "2":
                 print ("Account unblocked.\n")
 
     def unblockWithdrawals(self):
@@ -118,7 +120,7 @@ class ManagerPanel():
         account = self._bank.getSavingsAccountInfo(acctNum)
         self._bank.unblockWithdrawals(acctNum)
         self._bank.saveSavings("s_accounts.txt")
-        print("Withdrawals Available for account: %s" % acctNum)
+        print("\nWithdrawals Available for account: %s\n" % acctNum)
 
     def getCheckingAccount(self):
         """Gets account by calling a method from the bank class"""
@@ -171,8 +173,10 @@ class ATM():
         self._checkingAccount = self._bank.getCheckingAccountInfo
         self._savingsAccount = self._bank.getSavingsAccountInfo
         self._loggedIn = None
-        self._counterChecking = 0
-        self._counterSavings = 0
+        self._counterCheckingAcct = 0
+        self._counterSavingsAcct = 0
+        self._counterCheckingPin = 0
+        self._counterSavingsPin= 0
         self._counterChangePin = 0
         self._commands = {"1": self.deposit,"2": self.withdraw, "3": self.getBalance, "4": self.changePin, "5": self.quit}
 
@@ -184,32 +188,39 @@ class ATM():
             if ATM.EXIT_KEY == False:
                 break
             else:
-                if self._counterChecking >= ATM.TRIES and self._counterSavings >= ATM.TRIES:
-                    print("It seems like you don't know your pin. Police is on the way to help.")
-                    break
+                if self._counterCheckingAcct == ATM.TRIES and self._counterSavingsAcct == ATM.TRIES:
+                    print("It seems like you don't know your account number. Police is on the way to help.")
+                    ATM.EXIT_KEY = False
+                    return
+                if self._counterCheckingPin == ATM.TRIES and self._counterSavingsPin == ATM.TRIES:
+                    print("It seems like you don't know your pin number. Police is on the way to help.")
+                    ATM.EXIT_KEY = False
+                    return
                 acctNum = str(input("Enter Account number. (To quit, enter 'q') : "))
                 if acctNum == "q":
+                    print("Have a nice day!")
                     ATM.EXIT_KEY = False
                     return
                 verifier1 = self._checkingAccount(acctNum)
                 verifier2 = self._savingsAccount(acctNum)
                 if verifier1 == None and verifier2 == None:
-                    print("Invalid or Inexistent Accout Number. Try again")
-                    self._counterChecking += 1
-                    self._counterSavings += 1
+                    print("Invalid or Inexistent Accout Number. Try again.")
+                    self._counterCheckingAcct += 1
+                    self._counterSavingsAcct += 1
                 elif verifier1 != None:
                     self._loggedIn = verifier1
-                    self._counterChecking = 0
+                    self._counterCheckingAcct = 0
                     pin = str(input("Enter Pin: "))
                     if pin != verifier1._pinNumber:
                         print("Wrong Pin, try again.")
-                        self._counterChecking += 1
+                        self._counterCheckingPin += 1
+                        self._counterSavingsPin += 1
                     else:
                         while True:
                             if ATM.EXIT_KEY == False:
                                 print("Have a nice day!\n")
                                 break
-                            print("1   Deposit Funds;")
+                            print("\n1   Deposit Funds;")
                             print("2   Withdraw Funds;")
                             print("3   Check Balance;")
                             print("4   Change Pin;")
@@ -222,17 +233,18 @@ class ATM():
                                 theCommand()
                 elif verifier2 != None:
                     self._loggedIn = verifier2
-                    self._counterSavings = 0
+                    self._counterSavingsAcct = 0
                     pin = str(input("Enter Pin: "))
                     if pin != verifier2._pinNumber:
                         print("Wrong Pin, try again.")
-                        self._counterSavings += 1
+                        self._counterSavingsPin += 1
+                        self._counterCheckingPin += 1
                     else:
                         while True:
                             if ATM.EXIT_KEY == False:
                                 print("Have a nice day!\n")
                                 break
-                            print("1   Deposit Funds;")
+                            print("\n1   Deposit Funds;")
                             print("2   Withdraw Funds;")
                             print("3   Check Balance;")
                             print("4   Change Pin;")
@@ -309,7 +321,7 @@ class ATM():
                     print('Pin number changed successfully.')
                     return
                 else:
-                    print("Incorrect Pin. Try again.)
+                    print("Incorrect Pin. Try again.")
                     self._counterChangePin += 1
     def quit(self):
         """Quits by changing exit_key value"""
