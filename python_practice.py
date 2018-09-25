@@ -10,8 +10,5 @@ main()
 
 # bank = Bank()
 #
-# account = bank._checkingAccounts.get("2775046230", None)
-# if account._block == True:
-#     print("Blocked")
-# elif account._block == False:
-#     print("Unblocked")
+# account = bank._checkingAccounts.get("2750283571", None)
+# print(account._pinNumber)

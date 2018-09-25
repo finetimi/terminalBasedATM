@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Kwanza Bank{% endblock %}
+
+{% block body %}
+<form method="post" action="{{ url_for ('accountInfo') }}">
+  <div class="form-group">
+    <input type="text" class="form-control" id="acctNum" name = "acctNum" placeholder="Account Number" maxlength="10">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

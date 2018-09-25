@@ -1,0 +1,6 @@
+body {
+  background-image: url("/static/login_img.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #071940 !important;
+}
