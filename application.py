@@ -38,7 +38,8 @@ def accountInfo():
                 status = "Unblocked"
             else:
                 status = "Blocked"
-            balance = "$" + str(c_account._balance)
+            value = c_account._balance
+            balance = "$ {:,.2f}".format(value)
             return render_template("accountInfoView.html", accountNumber = accountNumber, clientName = clientName, accountType = accountType, status = status, balance = balance)
         elif s_account != None:
             clientName = s_account._name
@@ -49,7 +50,7 @@ def accountInfo():
             else:
                 status = "Blocked"
             value = s_account._balance
-            balance = "$ %.2f" % value
+            balance = "$ {:,.2f}".format(value)
             return render_template("accountInfoView.html", accountNumber = accountNumber, clientName = clientName, accountType = accountType, status = status, balance = balance)
 # @app.route('/about')
 # def about():
