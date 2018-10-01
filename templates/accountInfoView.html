@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
+<script src="/static/js/accountInfoView.js"></script>
 <link rel = "stylesheet" href = "/static/css/accountInfoStyle.css" >
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel= "stylesheet" href="/static/css/base_layout.css">
@@ -9,14 +10,37 @@
 
 {% block body %}
 
-<h1 id = 'header1' >Account Number: {{ accountNumber }}</h1>
-<br>
-<br>
-<table id='table1'>
-  <th>Full Name</th>
-  <th>Account Type</th>
-  <th>Status</th>
-  <th>Balance</th>
-</table>
+  <h1 id = 'header1' >Account Number: {{ accountNumber }}</h1>
+  <br>
+  <br>
+  <table id='table1' align = 'center'>
+    <tr class = 'headers1'>
+      <th class = "fname_th">Full Name</th>
+      <th class = "th_txt">Account Type</th>
+      <th class = "th_txt">Status</th>
+      <th class = "balance_th">Balance</th>
+    </tr>
+    <tr>
+      <td class="td_edge_left">
+        {{clientName}}
+      </td>
+      <td class="td_middle">
+        {{accountType}}
+      </td>
+      <td class = "td_middle">
+        {{status}}
+      </td>
+      <td class="td_edge_right">
+        {{balance}}
+      </td>
+    </tr>
+  </table>
+  <br>
+  Action: <select id = "mng_action" onchange= "mng_action_change()">
+    <option value = "dashes" selected> ------------ </option>
+    <option value = "dashes" > Block Account </option>
+    <option value = "dashes" > Unblock Account </option>
+    <option value = "dashes" > Reset Savings Account Withdrawals</option>
+
 
 {% endblock %}

@@ -1,3 +1,54 @@
 #header1 {
+  color: #9c757f;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+#table1 {
+  background-image:linear-gradient(to right, #071940, #071940,#35335c, #071940);
+  border-radius: 30px;
+  margin-top: 100px;
+}
+
+#table1 .headers1 {
+  color: #735678;
+  font-size: 25px;
+
+}
+
+#table1 .th_txt {
+  padding-left: 80px;
+}
+
+#table1 .balance_th {
+  padding-left: 80px;
+  padding-right: 30px;
+}
+
+#table1 .fname_th {
+  padding-left: 30px;
+}
+#table1 .td_edge_left {
+  text-align: left;
+  padding-left: 30px;
+  padding-top: 30px;
+  font-size: 20px;
+  color: white;
+}
+
+#table1 .td_edge_right {
+  text-align: left;
+  padding-left: 80px;
+  padding-top: 30px;
+  padding-right: 30px;
+  font-size: 20px;
+  color: white;
+}
+
+#table1 .td_middle {
+  text-align: left;
+  padding-left: 80px;
+  padding-top: 30px;
+  font-size: 20px;
   color: white;
 }

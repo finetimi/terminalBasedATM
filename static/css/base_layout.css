@@ -3,4 +3,20 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-color: #071940 !important;
+  color: #fffff9;
+  font-size: 20px;
+  text-align: center;
+}
+
+.bg-light{
+  background-image: linear-gradient(to right, #071940, #071940,#32315e, #071940);
+}
+
+.navbar-brand {
+  color: #9c757f !important;
+}
+
+.nav-link {
+  color: #9c757f !important;
+  opacity: 0.5 !important;
 }
