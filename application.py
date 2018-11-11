@@ -18,8 +18,7 @@ def index():
 
     if request.method == 'POST':
         session['accountNumber'] = request.form.get("acctNum")
-
-        if bank.getCheckingAccountInfo(session.get('accountNumber')) == None:
+        if bank.getCheckingAccountInfo(session.get('accountNumber', None)) == None:
             return redirect(url_for ('noAccount'))
         else:
             return redirect(url_for ('accountInfo'))
@@ -29,7 +28,7 @@ def index():
 @app.route('/accountInformation', methods = ['GET', 'POST'])
 def accountInfo():
 
-    accountNumber = session.get('accountNumber')
+    accountNumber = session.get('accountNumber', None)
     c_account = bank.getCheckingAccountInfo(accountNumber)
     s_account = bank.getSavingsAccountInfo(accountNumber)
 
