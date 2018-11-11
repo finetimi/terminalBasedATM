@@ -36,11 +36,15 @@
     </tr>
   </table>
   <br>
-  Action: <select id = "mng_action" onchange= "mng_action_change()">
-    <option value = "dashes" selected> ------------ </option>
-    <option value = "dashes" > Block Account </option>
-    <option value = "dashes" > Unblock Account </option>
-    <option value = "dashes" > Reset Savings Account Withdrawals</option>
+  <form method = "post" action = "{{ url_for ('accountInfo')}}">
+    <select id = "mng_action" name = "actions" >
+      <option value = "dashes" selected> ------------ </option>
+      <option value = "blockAccount" > Block Account </option>
+      <option value = "unblockAccount" > Unblock Account </option>
+      <option value = "ResetSavings" > Reset Savings Account Withdrawals</option>
+      <br>
+    <input class="btn btn-primary" type="submit" value="Submit" onclick="window.location.reload()">
+  </form>
 
 
 {% endblock %}
