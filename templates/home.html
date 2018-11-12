@@ -5,7 +5,7 @@
 {% block body %}
 <form method="post" action="{{ url_for ('index') }}">
   <div class="form-group">
-    <input type="text" class="form-control" id="acctNum" name ="acctNum" placeholder="Account Number" maxlength="10">
+    <input type="text" class="form-control" id="acctNum" name ="acctNum" placeholder="Account Number" maxlength="10" autofocus>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
