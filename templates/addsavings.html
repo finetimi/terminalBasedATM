@@ -10,7 +10,7 @@
 
 {% block body %}
 
-<h1>New savings account</h1>
+<h1 id="header1">New savings account</h1>
 <form method="post" action="{{ url_for('add_savings') }}">
   <div class="form-group">
     <input type="text" class="form-control" name="fullName" id="txtName" placeholder="Full Name" autofocus>

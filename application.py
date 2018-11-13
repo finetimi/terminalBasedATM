@@ -76,9 +76,10 @@ def accountInfo():
             else:
                 status = "Blocked"
             value = c_account._balance
+            pin = c_account._pinNumber
             balance = "$ {:,.2f}".format(value)
             bank.saveCheking("c_accounts.txt")
-            return render_template("accountInfoView.html", accountNumber = accountNumber, clientName = clientName, accountType = accountType, status = status, balance = balance)
+            return render_template("accountInfoView.html", accountNumber = accountNumber, clientName = clientName, accountType = accountType, status = status, balance = balance, pin = pin)
         elif s_account != None:
             clientName = s_account._name
             accountType = s_account._accountType
@@ -88,6 +89,7 @@ def accountInfo():
             else:
                 status = "Blocked"
             value = s_account._balance
+            pin = s_account._pinNumber
             balance = "$ {:,.2f}".format(value)
             bank.saveSavings("s_accounts.txt")
     return render_template("accountInfoView.html", accountNumber = accountNumber, clientName = clientName, accountType = accountType, status = status, balance = balance)
@@ -119,6 +121,7 @@ def add_savings():
         bank.saveSavings("s_accounts.txt")
         return redirect( url_for('accountInfo') )
     return render_template("addsavings.html")
+
 
 if __name__ == '__main__':
     app.run(debug = True)
