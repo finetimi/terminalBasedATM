@@ -9,14 +9,14 @@
   </head>
   <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href= {{ url_for ('index')}}>Kwanza Bank</a>
+          <a class="navbar-brand" href= {{ url_for ('index_app')}}>Kwanza Bank</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href= {{ url_for ('index')}}>Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href= {{ url_for ('index_app')}}>Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/about">About Project</a>
@@ -29,9 +29,9 @@
             Manager Actions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href= {{ url_for ('add_cheking')}}>Add Checking Account</a>
-                  <a class="dropdown-item" href= {{ url_for ('add_savings')}}>Add Savings Account</a>
-                  
+                  <a class="dropdown-item" href= {{ url_for ('addCheckingAcct')}}>Add Checking Account</a>
+                  <a class="dropdown-item" href= {{ url_for ('addSavingsAcct')}}>Add Savings Account</a>
+
                 </div>
               </li>
             </ul>
