@@ -38,15 +38,17 @@
         {{balance}}
       </td>
     </tr>
+    <tr class="headers1 tran_hist">
+    <th colspan="4" class="th_txt">Transaction History</th>
+    </tr>
   </table>
   <br>
-  <form method = "post" action = "{{ url_for ('checkingAcctView')}}">
+  <form method = "post" action = "{{ url_for ('savingsAcctView')}}">
     <select id = "mng_action" name = "actions" >
       <option value = "dashes" selected> ------------ </option>
       <option value = "blockAccount" > Block Account </option>
       <option value = "unblockAccount" > Unblock Account </option>
-      <option value = "delete_c_Account" > Delete Checking Account </option>
-      <option value = "delete_s_Account" > Delete Savings Account </option>
+      <option value = "delete_s_Account" > Delete Account </option>
       <option value = "resetSavings" > Reset Savings Account Withdrawals</option>
       <br>
     <input class="btn btn-primary" type="submit" value="Submit" onclick="window.location.reload()">

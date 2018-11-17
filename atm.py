@@ -1,6 +1,6 @@
 from accounts import *
 from bank import Bank
-
+import datetime
 
 
 class ManagerPanel():
@@ -179,6 +179,7 @@ class ATM():
         self._counterSavingsPin= 0
         self._counterChangePin = 0
         self._commands = {"1": self.deposit,"2": self.withdraw, "3": self.getBalance, "4": self.changePin, "5": self.quit}
+        self._transactions = {}
 
     def processing(self):
         """Main function. Initiates every other function inside the dictionary. Before accessing functions,
@@ -256,23 +257,27 @@ class ATM():
                             else:
                                 theCommand()
     def deposit(self):
-        """Checks account type, deposit money into account and saves it into dict stored in Bank object/class"""
-        if self._loggedIn._accountType == "Checking":
-            money = float(input("Enter deposit amount: "))
-            if self._loggedIn.deposit(money) == "1":
-                print("Account Blocked. Contact bank for more information.")
-                return
-            else:
-                print("\nDeposit Amount: $%.2f" % money + "\n")
-                self._bank.saveCheking("c_accounts.txt")
-        elif self._loggedIn._accountType == "Savings":
-            money = float(input("Enter deposit amount: "))
-            if self._loggedIn.deposit(money) == "1":
-                print("Account Blocked. Contact bank for more information.")
-                return
-            else:
-                print("\nDeposit Amount: $%.2f" % money + "\n")
-                self._bank.saveSavings("s_accounts.txt")
+        depositRequest = True
+        while depositRequest:
+            """Checks account type, deposit money into account and saves it into dict stored in Bank object/class"""
+            if self._loggedIn._accountType == "Checking":
+                money = float(input("Enter deposit amount: "))
+                if self._loggedIn.deposit(money) == "1":
+                    print("Account Blocked. Contact bank for more information.")
+                    #bdt stands for blocked deposit timeself.
+                    bdt = datetime.datetime.now().strftime("%m/%d/%y %r")
+                    depositRequest = False
+                else:
+                    print("\nDeposit Amount: $%.2f" % money + "\n")
+                    self._bank.saveCheking("c_accounts.txt")
+            elif self._loggedIn._accountType == "Savings":
+                money = float(input("Enter deposit amount: "))
+                if self._loggedIn.deposit(money) == "1":
+                    print("Account Blocked. Contact bank for more information.")
+                    return
+                else:
+                    print("\nDeposit Amount: $%.2f" % money + "\n")
+                    self._bank.saveSavings("s_accounts.txt")
 
     def withdraw(self):
         """Checks account type, withdraws money from account and saves it into dict stored in Bank object/class"""

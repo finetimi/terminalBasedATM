@@ -13,9 +13,12 @@ def index():
 
     if request.method == 'POST':
         session['accountNumber'] = request.form.get("acctNum")
-        if bank.getCheckingAccountInfo(session.get('accountNumber', None)) == None and bank.getSavingsAccountInfo(session.get('accountNumber', None)) == None:
-            return redirect(url_for ('noAccount'))
-        else:
+        if bank.getCheckingAccountInfo(session.get('accountNumber', None)) != None:
             return redirect(url_for ('checkingAcctView'))
+        elif bank.getSavingsAccountInfo(session.get('accountNumber', None)) != None:
+            return redirect(url_for ('savingsAcctView'))
+        else:
+            return redirect(url_for ('noAccount'))
+
     else:
         return render_template("home.html")

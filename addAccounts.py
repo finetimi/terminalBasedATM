@@ -26,5 +26,5 @@ def add_savings():
         session['accountNumber'] = newSavings.getAccountNumber()
         bank.addSavings(newSavings)
         bank.saveSavings("s_accounts.txt")
-        return redirect( url_for('checkingAcctView') )
+        return redirect( url_for('savingsAcctView') )
     return render_template("addsavings.html")

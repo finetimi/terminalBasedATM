@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<script src="/static/js/accountInfoView.js"></script>
+<link rel = "stylesheet" href = "/static/css/accountInfoStyle.css" >
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel= "stylesheet" href="/static/css/base_layout.css">
+<title>Kwanza Bank</title>
+{% endblock %}
+
+{% block body %}
+
+  <h1 id = 'header1' >Account Number: {{ accountNumber }}</h1>
+  <br>
+  <br>
+  <table id='table1' align = 'center'>
+    <tr class = 'headers1'>
+      <th class = "fname_th">Full Name</th>
+      <th class = "th_txt">Account Type</th>
+      <th class = "th_txt">Status</th>
+      <th class = "th_txt">Pin Number</th>
+      <th class = "balance_th">Balance</th>
+    </tr>
+    <tr>
+      <td class="td_edge_left">
+        {{clientName}}
+      </td>
+      <td class="td_middle">
+        {{accountType}}
+      </td>
+      <td class = "td_middle">
+        {{status}}
+      </td>
+      <td class = "td_middle">
+        {{pin}}
+      </td>
+      <td class="td_edge_right">
+        {{balance}}
+      </td>
+    </tr>
+  </table>
+  <br>
+  <form method = "post" action = "{{ url_for ('checkingAcctView')}}">
+    <select id = "mng_action" name = "actions" >
+      <option value = "dashes" selected> ------------ </option>
+      <option value = "blockAccount" > Block Account </option>
+      <option value = "unblockAccount" > Unblock Account </option>
+      <option value = "delete_c_Account" > Delete Account </option>
+      <br>
+    <input class="btn btn-primary" type="submit" value="Submit" onclick="window.location.reload()">
+  </form>
+
+
+{% endblock %}

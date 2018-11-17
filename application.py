@@ -4,7 +4,7 @@ from accounts import *
 from bank import *
 from atm import *
 from mpHome import index
-from mpCAcctView import c_accountInfo
+from mpCAcctView import *
 from addAccounts import *
 
 app = Flask(__name__)
@@ -19,9 +19,13 @@ atm = ATM
 def index_app():
     return index()
 
-@app.route('/accountInformation', methods = ['GET', 'POST'])
+@app.route('/checking_information', methods = ['GET', 'POST'])
 def checkingAcctView():
     return c_accountInfo()
+
+@app.route('/savings_information', methods = ['GET', 'POST'])
+def savingsAcctView():
+    return s_accountInfo()
 
 @app.route('/noAccount')
 def noAccount():
