@@ -2,7 +2,6 @@ from flask import Flask, request,render_template,url_for,redirect, session
 from accounts import *
 from bank import *
 from atm import *
-bank = Bank()
 account = Account
 s_account = SavingsAccount
 atm = ATM
@@ -10,6 +9,7 @@ atm = ATM
 def c_accountInfo():
 
     accountNumber = session.get('accountNumber', None)
+    bank = Bank()
     c_account = bank.getCheckingAccountInfo(accountNumber)
 
     """Gets the account number from main page and
@@ -46,10 +46,12 @@ def c_accountInfo():
         pin = c_account._pinNumber
         balance = "$ {:,.2f}".format(value)
         bank.saveCheking("c_accounts.txt")
-        return render_template("checkingInfoView.html", accountNumber = accountNumber, clientName = clientName, accountType = accountType, status = status, balance = balance, pin = pin)
+    return render_template("checkingInfoView.html", accountNumber = accountNumber, clientName = clientName, accountType = accountType, status = status, balance = balance, pin = pin)
 
 def s_accountInfo():
 
+    bank = Bank()
+    
     accountNumber = session.get('accountNumber', None)
     s_account = bank.getSavingsAccountInfo(accountNumber)
 

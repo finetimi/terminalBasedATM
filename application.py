@@ -1,11 +1,11 @@
 from flask import Flask, request,render_template,url_for,redirect, session
 import os
-from accounts import *
-from bank import *
-from atm import *
+from accounts import Account, SavingsAccount
+from bank import Bank
+from atm import ManagerPanel, ATM
 from mpHome import index
-from mpCAcctView import *
-from addAccounts import *
+from mpCAcctView import c_accountInfo, s_accountInfo
+from addAccounts import add_cheking, add_savings
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(16)

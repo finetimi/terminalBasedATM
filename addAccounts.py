@@ -12,9 +12,9 @@ def add_cheking():
     if request.method == 'POST':
         fullName = request.form.get('fullName')
         newChecking = account(fullName)
-        session['accountNumber'] = newChecking.getAccountNumber()
         bank.addChecking(newChecking)
         bank.saveCheking("c_accounts.txt")
+        session['accountNumber'] = newChecking.getAccountNumber()
         return redirect( url_for('checkingAcctView') )
     return render_template("addchecking.html")
 
@@ -23,8 +23,8 @@ def add_savings():
     if request.method == 'POST':
         fullName = request.form.get('fullName')
         newSavings = s_account(fullName)
-        session['accountNumber'] = newSavings.getAccountNumber()
         bank.addSavings(newSavings)
         bank.saveSavings("s_accounts.txt")
+        session['accountNumber'] = newSavings.getAccountNumber()
         return redirect( url_for('savingsAcctView') )
     return render_template("addsavings.html")

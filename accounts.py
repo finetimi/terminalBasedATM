@@ -1,53 +1,83 @@
 from random import randint
 
-class Account():
+class CUSTOMER():
 
+    """ Creating a class for costumer's personal information. """
 
-    """Initialize the code"""
-    def __init__(self, name = None, balance = 0.0):
-        self._name = name
-        self._balance = balance
-        self._accountNumber = self.accountNumber()
-        self._pinNumber = self.pinGenerator()
-        self._accountType = "Checking"
-        self._block = False
+    def __init__(self, f_name, l_name, date_of_birth, address, phone_number, ssn, driver_license, email, status = 'Active'):
+        self._f_name = f_name
+        self._l_name = l_name
+        self._date_of_birth = date_of_birth
+        self._address = address
+        self._phone_number = phone_number
+        self._driver_license = driver_license
+        self._ssn = ssn
+        self._pin_number = self.pin_generator()
+        self._email = email
+        self._status = status
 
-    def accountNumber(self):
-        # Generates random account number
-        number = ""
-        for numbers in range(10):
-            number += str(randint(0,9))
-        return number
-
-
-    def pinGenerator(self):
+    def pin_generator(self):
         # Generates random pin
         pin = ""
         for number in range(4):
             pin += str(randint(0,9))
         return pin
 
-    def getName(self):
-        """Gets student's name"""
-        return self._name
-
-    def getBalance(self):
-        """Get the balance of account"""
-        return self._balance
-
-    def getPin(self):
+    def get_pin(self):
         """Get pin of account"""
         return self._pinNumber
 
-    def getAccountNumber(self):
-        # Returns account Number
-        return self._accountNumber
+    def change_status(self):
+        """Upon removal of account, customer info will be kept and status will change"""
+        self._status = "Inactive"
+        return self._status
+
+    def change_pin(self, new_pin):
+        """Enables customer to change Pin"""
+        self._pinNumber = new_pin
+        return self._pinNumber
+
+    def change_address(self, new_address):
+        """ Mutal method: To change address of costumer in case he/she moves """
+        self._address = new_address
+        return self._address
+
+    def change_phone_number(self, new_phone_number):
+        """ Mutal method: To change phone number of costumer """
+        self._phone_number = new_phone_number
+        return self._phone_number
+
+    def change_address(self, new_email):
+        """ Mutal method: To change email of costumer """
+        self._email = new_email
+        return self._email
+
+class ACCOUNT():
+    """Initialize the code"""
+    def __init__(self, balance = 0.0):
+        self._balance = balance
+        self._account_type = "Checking"
+        self._block = False
+
+
+    def get_balance(self):
+        """Get the balance of account"""
+        return self._balance
+
+
+    def get_account_type(self):
+        # Returns account type
+        return self._account_type
+
+    def get_status(self):
+        if self._block == True:
+            return "Blocked"
+        return "Unblocked"
+
 
     def __str__(self):
         # Returns information of the account
-        accounts = "\nName:   " + self._name + "\n"+ "\n"
-        accounts += "Account Number:   " + self._accountNumber + "\n"
-        accounts += "Account Type:   " + self._accountType + "\n"
+        accounts += "Account Type:   " + self._account_type + "\n"
         accounts += "Balance:   " + "$" + str(self._balance) + "\n"
         if self._block == True:
             status = "Blocked"
@@ -56,13 +86,15 @@ class Account():
         accounts += "Status:   " + status + "\n"
         return accounts
 
-    def blockAccount(self, condition):
+    def block_account(self):
         """Condition changes value of class variable Block"""
-        if condition == "1":
-            self._block = True
-        elif condition == "2":
-            self._block = False
+        self._block = True
+        return
 
+    def unblock_account(self):
+        """Condition changes value of class variable Block"""
+        self._block = False
+        return
 
     def deposit(self, amount):
         #checkers checks if account is blocked; balance is increased
@@ -87,17 +119,16 @@ class Account():
         return None
 
 
-
-class SavingsAccount(Account):
+class SAVINGS_ACCOUNT(ACCOUNT):
     RATE = 0.03
     LIMIT = 5
 
-    def __init__(self, name = None, balance = 0.0):
-        Account.__init__(self, name, balance)
+    def __init__(self, balance = 0.0):
+        ACCOUNT.__init__(self, balance)
         self._count = 0
-        self._accountType = "Savings"
+        self._account_type = "Savings"
 
-    def computeInterest(self):
+    def compute_interest(self):
         #computes interest and it is deposit to account
         interest = self._balance * SavingsAccount.RATE
         self.deposit(interest)
