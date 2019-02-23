@@ -50,8 +50,8 @@ class TRANS_MNG():
             return
 
         elif amount > 0:
-
-            self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:ACCOUNTS.balance + amount})
+            acct_obj = self.acct_tb_query(self._user.id, self._account_number).first()
+            self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:float(acct_obj.balance) + float(amount)})
             self._session.commit()
             description = ("Deposit Value: $%f." % (amount))
             status = "Approved"
@@ -83,7 +83,7 @@ class TRANS_MNG():
                     return
 
                 elif amount > 0:
-                    self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:ACCOUNTS.balance - amount})
+                    self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:float(account_obj.balance) - float(amount)})
                     self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.withdrawal_limit:ACCOUNTS.withdrawal_limit + 1})
                     self._session.commit()
                     description = ("Withdrawal Value: $%f." % (amount))
@@ -91,7 +91,7 @@ class TRANS_MNG():
                     self.trans_record(self._account_number, description, amount, status)
                     return
             else:
-                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:ACCOUNTS.balance - amount})
+                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:float(account_obj.balance) - float(amount)})
                 self._session.commit()
                 description = ("Withdrawal Value: $%f." % (amount))
                 status = "Approved"
@@ -117,8 +117,8 @@ class TRANS_MNG():
                 return
 
             elif receiver_acct_obj != None and receiver_acct_obj.account_type == 'Savings' and account_obj.account_type == "Checking" and amount > 0:
-                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:ACCOUNTS.balance - amount})
-                self.acct_tb_query(self._user.id, receiv_account_num).filter(ACCOUNTS.customer_email == self._email).update({ACCOUNTS.balance:ACCOUNTS.balance + amount})
+                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:float(account_obj.balance) - float(amount)})
+                self.acct_tb_query(self._user.id, receiv_account_num).filter(ACCOUNTS.customer_email == self._email).update({ACCOUNTS.balance:float(receiver_acct_obj.balance) + float(amount)})
                 self._session.commit()
                 description = (("Transfer Complete: $%d." % amount))
                 status = "Approved"
@@ -149,11 +149,12 @@ class TRANS_MNG():
                 return
 
             elif receiver_acct_obj != None and receiver_acct_obj.transfers_limit <= 6 and receiver_acct_obj.account_type == 'Checking' and account_obj.account_type == "Savings" and amount > 0:
-                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:ACCOUNTS.balance - amount})
-                self.acct_tb_query(self._user.id, receiv_account_num).filter(ACCOUNTS.customer_email == self._email).update({ACCOUNTS.balance:ACCOUNTS.balance + amount})
-                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.withdrawal_limit:ACCOUNTS.transfers_limit + 1})
+                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:float(account_obj.balance) - float(amount)})
+                self.acct_tb_query(self._user.id, receiv_account_num).filter(ACCOUNTS.customer_email == self._email).update({ACCOUNTS.balance:float(receiver_acct_obj.balance) + float(amount)})
+                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.transfers_limit:ACCOUNTS.transfers_limit + 1})
                 self._session.commit()
-                description = ("Transfer Complete. %d transfers left for this month." % (6 - account_obj.transfers_limit))
+                transfers_left = 6 - account_obj.transfers_limit
+                description = ("Transfer Complete. %d transfers left for this month." % (transfers_left))
                 status = "Approved"
                 self.trans_record(self._account_number, description, amount, status, receiv_account_num)
                 return
@@ -181,8 +182,8 @@ class TRANS_MNG():
                 return
 
             elif receiver_acct_obj != None and receiver_acct_obj.account_type != 'Savings' and amount > 0:
-                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:ACCOUNTS.balance - amount})
-                self._session.query(ACCOUNTS).filter(and_(ACCOUNTS.id == receiv_account_num, ACCOUNTS.customer_email == receiver_email, ACCOUNTS.customer_id != self._user.id)).update({ACCOUNTS.balance:ACCOUNTS.balance + amount})
+                self.acct_tb_query(self._user.id, self._account_number).update({ACCOUNTS.balance:float(account_obj.balance) - float(amount)})
+                self._session.query(ACCOUNTS).filter(and_(ACCOUNTS.id == receiv_account_num, ACCOUNTS.customer_email == receiver_email, ACCOUNTS.customer_id != self._user.id)).update({ACCOUNTS.balance:float(receiver_acct_obj.balance) + float(amount)})
                 self._session.commit()
                 description = ("Money Transfered to Account Number# %d." % receiver_acct_obj.id)
                 status = "Approved"

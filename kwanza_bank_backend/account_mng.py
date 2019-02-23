@@ -2,8 +2,8 @@ from sqlalchemy_declarative import CUSTOMER, ADDRESS, ACCOUNTS, engine, Session,
 from sqlalchemy import and_
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s- %(message)s')
-logging.debug('Start of program')
+# logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s- %(message)s')
+# logging.debug('Start of program')
 
 class ACCOUNT_MNG():
 

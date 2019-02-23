@@ -26,15 +26,16 @@ new_customer = NEW_ACCOUNT()
 #
 # new_customer.account("cj_gwenver@gmail.com", 'Checking')
 
-# a = ACCOUNT_MNG('cj_gwenver@gmail.com','2650')
-# a.update_pin('1248')
+# a = ACCOUNT_MNG('cj_gwenver@gmail.com','3884')
+# a.reset_withdrawals(4)
 
 
 
 # t.withdrawal_trans(100)
 #  [(%y/%Y – Year), (%a/%A- weekday), (%b/%B- month), (%d - day of month)]
 # print(dt.datetime.now())
+#
+t = TRANS_MNG(2,'3884','cj_gwenver@gmail.com')
+# t.deposit_trans(1000.55)
 
-t = TRANS_MNG(2,'9233','cj_gwenver@gmail.com')
-# t.deposit_trans(1950)
 t.intrabank_transf(200, 1, "elle_singer@gmail.com")
